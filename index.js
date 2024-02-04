@@ -17,25 +17,30 @@ mongoose.connect('mongodb+srv://Abhishekkange123:7211821g@nearbykart.cpuhqy4.mon
 // Middleware to parse JSON requests
 app.use(express.json());
 
-app.post('/addlocation',function(req,res){
-
+app.post('/api/addlocation', (req, res) => {
   const { placeName, longitude, latitude } = req.body;
 
-
-    // Validate incoming data
+  // Validate incoming data
   if (!placeName || typeof longitude !== 'number' || typeof latitude !== 'number') {
     return res.status(400).json({ error: 'Invalid data format' });
   }
 
-  newPlace.save((err) => {
-    if (err) {
-      console.error('Error saving location data:', err);
-      return res.status(500).json({ error: 'Failed to save location data' });
-    }
-    res.status(200).json({ message: 'Location data saved successfully' });
+  // Save the location data to the database
+  const newPlace = new Place({
+    placeName: placeName,
+    longitude: longitude,
+    latitude: latitude,
   });
-});
 
+  newPlace.save()
+    .then(() => {
+      res.status(200).json({ message: 'Location data saved successfully' });
+    })
+    .catch((err) => {
+      console.error('Error saving location data:', err);
+      res.status(500).json({ error: 'Failed to save location data' });
+    });
+});
 
 
 
