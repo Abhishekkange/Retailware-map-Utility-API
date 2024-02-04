@@ -14,6 +14,31 @@ mongoose.connect('mongodb+srv://Abhishekkange123:7211821g@nearbykart.cpuhqy4.mon
 // Middleware to parse JSON requests
 app.use(express.json());
 
+app.post('/addlocation',function(req,res){
+
+  const { placeName, longitude, latitude } = req.body;
+
+
+    // Validate incoming data
+  if (!placeName || typeof longitude !== 'number' || typeof latitude !== 'number') {
+    return res.status(400).json({ error: 'Invalid data format' });
+  }
+
+  // Here you can save the location data to your database or perform any other action
+  console.log('Received location data:', { placeName, longitude, latitude });
+
+  res.status(200).json({ message: 'Location data saved successfully' });
+
+
+
+
+
+
+
+});
+
+
+
 // Define the route
 app.get('/places/:name', async (req, res) => {
   try {
@@ -36,3 +61,5 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
+
+

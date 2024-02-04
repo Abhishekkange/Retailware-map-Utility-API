@@ -19,5 +19,7 @@ const placeSchema = new mongoose.Schema({
 // Create the Place model based on the schema
 const Place = mongoose.model('map', placeSchema);
 
+
+
 // Export the Place model
 module.exports = Place;
