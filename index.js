@@ -1,8 +1,11 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const Place = require('./moel');
+const bodyParser = require('body-parser');
 
 const app = express();
+
+app.use(bodyParser.json());
 
 // Connect to MongoDB using Mongoose
 mongoose.connect('mongodb+srv://Abhishekkange123:7211821g@nearbykart.cpuhqy4.mongodb.net/map', {
@@ -24,18 +27,15 @@ app.post('/addlocation',function(req,res){
     return res.status(400).json({ error: 'Invalid data format' });
   }
 
-  // Here you can save the location data to your database or perform any other action
-  console.log('Received location data:', { placeName, longitude, latitude });
-
-  res.status(200).json({ message: 'Location data saved successfully' });
-
-
-
-
-
-
-
+  newPlace.save((err) => {
+    if (err) {
+      console.error('Error saving location data:', err);
+      return res.status(500).json({ error: 'Failed to save location data' });
+    }
+    res.status(200).json({ message: 'Location data saved successfully' });
+  });
 });
+
 
 
 
